@@ -14,7 +14,7 @@ def predict(): #function will handle the (POST) request sent to predict
     return jsonify({'prediction':prediction})
 
 if __name__ == '__main__': #to run flask app, ensures flask app run when script is executed directly
-    app.run(host='0.0.0.0', port = 5001) #at port 5001, from any network I/F in local machine
+    app.run(host='0.0.0.0', port = 5000) #at port 5000, from any network I/F in local machine
     
 
 
