@@ -1,0 +1,7 @@
+1. Azure Data Factory
+2. Azure Databricks
+3. Azure Apache Spark
+4. Terraform
+5. onnx
+6. snowflake
+7. 

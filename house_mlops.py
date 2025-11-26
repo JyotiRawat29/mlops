@@ -16,3 +16,4 @@ model.fit(X_train_scaled,y_train)
 joblib.dump(model,'model_ops.pkl')
 
 #include mlflow and logging too
+# %%

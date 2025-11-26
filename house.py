@@ -1,3 +1,4 @@
+#%%
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -28,3 +29,4 @@ joblib.dump(model, 'calfornia_model.pkl')
 model = joblib.load('calfornia_model.pkl')
 predictions = model.predict(X_test_scaler) #predictions from loaded model
 print('predictions from loaded model',predictions[:5]) # same as y_pred
+
