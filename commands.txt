@@ -1,0 +1,51 @@
+
+kubectl version
+kubectl config current-context (minikube: first start minikube)Thre are multiple clusters you can use with kubectl config
+kubectl run 
+kubectl run nginx --image=nginx:1.27.0
+kubectl get pods
+kubectl describe pods nginx (Gives also IP 10.244.0.3 but the private for inside k8s)
+kubectl run -it alpine --image=alpine:3.20 sh (interactive mode)
+    (apk --update add curl
+    curl
+    curl --help
+    curl 10.244.0.3 # here you cannot talk via name of container like curl nginx, by default name based resolution doesnot work
+    exit)
+kubectl get pods
+  alpine   1/1     Running   1 (28s ago)   3m55s # restarted because of exit in line 12 but running still
+    nginx    1/1     Running   0             9m23s
+kubectl logs nginx
+kubectl delete pod alpine ( kubectl delete -f pod alpine)
+kubectl get pods
+#exposing pods and containers so that they can communicate, IPaddr is not an effective way when pod is recreated IPaddr is likely to change
+kubectl expose pod --help
+kubectl expose pod nginx --type=NodePort --port=80 #giving pod a stable IP and DNS name
+kubectl expose pod nginx --name=nginx --port=80 # here the type witll be cluster type and not NodePort
+kubectl get service
+    [NAME         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)        AGE
+    kubernetes   ClusterIP   10.96.0.1      <none>        443/TCP        23m
+    nginx        NodePort    10.101.15.49   <none>        80:32207/TCP   44s #this is the cluster IP of not nginx but service(NodePort type) to communicate/expose the pods on a port in the cluster. The po
+    the one from describe command 10.244.0.5 is IP of the pod to communicate with other pod. The pod IPs are recreated therefore, we need Service to give a stable front end to the pods.
+    Service act as load balancin here, as a proxy and serve the request to the pods. Service is not what it menas in consumer world but a service to the ever changing IPs of the pods.
+    Cluster IP is he stable IP
+    ]
+#Demo of how cluster IP is stable
+( kubectl run -it alpine --image=alpine:3.20 sh
+    apk --update add curl
+    curl 10.101.244.0.5 (return the nginx output)
+ On diffeent terminal delete nginx
+  image
+    curl 10.101.244.0.5 (as pod is deleted cannot access)
+    On different terminal create nginx pod
+    curl 10.101.244.0.5 (return the nginx output)
+    OR
+    curl nginx (return the nginx output)
+)
+kubectl exec alpine -c alpine -i -t -- sh -il
+ping on cluster IP id will not work from alpine pod because Cluster Ip only work for TCP/UDP traffic and drops ICMP traffic.
+but CURL on cluster IP:port will work 
+kubectl get endpoints servicename
+kubectl get svc mlops -o wide
+
+
+
